@@ -88,7 +88,7 @@ public class RegistroPanel extends javax.swing.JPanel {
         JLabel1.setForeground(new Color(245, 245, 245));
         Inicio.add(JLabel1);
         MyTextField txtUsuario = new MyTextField();
-        txtUsuario.setPrefixIcon(new ImageIcon(getClass().getResource("/vistas/img//user.png")));
+        txtUsuario.setPrefixIcon(new ImageIcon(getClass().getResource("/vistas/img/user.png")));
         txtUsuario.setHint("Nombre");
         Inicio.add(txtUsuario, "w 60%");
         MyTextField txtCorreo = new MyTextField();

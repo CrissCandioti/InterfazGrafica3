@@ -12,33 +12,34 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 public class MensajeEmergente extends javax.swing.JPanel {
-
+    
     private mensajesEmergentes mensajesEmergentes1 = mensajesEmergentes.CORRECTO;
     private boolean mostrar;
-
+    
     public boolean isMostrar() {
         return mostrar;
     }
-
+    
     public void setMostrar(boolean mostrar) {
         this.mostrar = mostrar;
     }
-
+    
     public MensajeEmergente() {
         initComponents();
         setOpaque(false);
+        setVisible(false);
     }
-
+    
     public void mostrarMensaje(mensajesEmergentes mensajesEmergentes, String contenido) {
         this.mensajesEmergentes1 = mensajesEmergentes;
         jLabelMensaje.setText(contenido);
         if (mensajesEmergentes == mensajesEmergentes.CORRECTO) {
-            jLabelMensaje.setIcon(new ImageIcon(getClass().getResource("/vistas.img/success.png")));
+            jLabelMensaje.setIcon(new ImageIcon(getClass().getResource("/vistas/img/success.png")));
         } else {
-            jLabelMensaje.setIcon(new ImageIcon(getClass().getResource("/vistas.img/error.png")));
+            jLabelMensaje.setIcon(new ImageIcon(getClass().getResource("/vistas/img/error.png")));
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -77,7 +78,7 @@ public class MensajeEmergente extends javax.swing.JPanel {
         
         super.paintComponent(g); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
-
+    
     public static enum mensajesEmergentes {
         CORRECTO, ERROR
     }

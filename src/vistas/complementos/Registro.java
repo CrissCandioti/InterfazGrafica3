@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JLayeredPane;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
+import org.jdesktop.animation.timing.TimingTarget;
+import org.jdesktop.animation.timing.TimingTargetAdapter;
 import vistas.clases.ModeloEmail;
 
 /**
@@ -74,7 +76,7 @@ public class Registro extends javax.swing.JFrame {
                 ModeloEmail usuario = panel.getModeloCorreoElectronico();
 //pantallaDeCargaRegistro.setVisible(true);
 //                panelVerificarCodigo.setVisible(true);
-                System.out.println("correo "+usuario.getCorreo());
+                mostrarMensaje(MensajeEmergente.mensajesEmergentes.CORRECTO, "TEST");
             }
         };
         panel = new RegistroPanel(evento);
@@ -88,6 +90,64 @@ public class Registro extends javax.swing.JFrame {
         Inicio.add(panelVerificarCodigo, "pos 0 0 100% 100%");
         Inicio.add(panel, "width " + PanelSize + "%, pos 0al 0 n 100%");
     }
+
+    private void mostrarMensaje(MensajeEmergente.mensajesEmergentes mensajes, String contenido) {
+        MensajeEmergente mss = new MensajeEmergente();
+        mss.mostrarMensaje(mensajes, contenido);
+        TimingTarget target = new TimingTargetAdapter() {
+            @Override
+            public void begin() {
+                if (!mss.isMostrar()) {
+                    Inicio.add(mss, "pos 0.5al -30", 0);
+                    mss.setVisible(true);
+                    Inicio.repaint();
+                }
+            }
+
+            @Override
+            public void timingEvent(float fraction) {
+                float f;
+                if (mss.isMostrar()) {
+                    f = 40 * (1f - fraction);
+                } else {
+                    f = 40 * fraction;
+                }
+                Layout.setComponentConstraints(mss, "pos 0.5al " + (int) (f - 30));
+                Inicio.repaint();
+                Inicio.revalidate();
+            }
+
+            @Override
+            public void end() {
+                if (mss.isMostrar()) {
+                    Inicio.remove(mss);
+                    Inicio.repaint();
+                    Inicio.revalidate();
+                } else {
+                    mss.setMostrar(true);
+                }
+            }
+
+        };
+
+        Animator animacion = new Animator(300, target);
+        animacion.setResolution(0);
+        animacion.setAcceleration(0.5f);
+        animacion.setDeceleration(0.5f);
+        animacion.start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                    animacion.start();
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+        }).start();
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane Inicio;
